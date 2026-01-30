@@ -3,16 +3,19 @@ from app.database import engine, Base
 from app import models 
 from app.routers import employees,attendance
 from fastapi.middleware.cors import CORSMiddleware
+import os 
 
 app = FastAPI(title="HRMS Lite API")
 
 Base.metadata.create_all(bind=engine)
 
+frontend_url = os.getenv("FRONTEND_URL")
 
 # CORS CONFIG
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        frontend_url,
         "http://localhost:5173",
         "http://127.0.0.1:5173",
     ],
