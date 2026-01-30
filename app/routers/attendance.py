@@ -39,7 +39,7 @@ def mark_attendance(attendance: schemas.AttendanceCreate, db: Session = Depends(
     new_attendance = models.Attendance(
         employee_id=employee.id,
         date=attendance.date,
-        status=attendance.status
+        status=models.AttendanceStatus(attendance.status)
     )
 
     db.add(new_attendance)
