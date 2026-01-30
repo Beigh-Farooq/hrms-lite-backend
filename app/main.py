@@ -1,10 +1,13 @@
 from fastapi import FastAPI
 from app.database import engine, Base 
 from app import models 
+from app.routers import employees
 
 app = FastAPI(title="HRMS Lite API")
 
 Base.metadata.create_all(bind=engine)
+
+app.include_router(employees.router)
 
 @app.get("/")
 def root():
