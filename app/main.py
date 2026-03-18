@@ -10,17 +10,17 @@ app = FastAPI(title="HRMS Lite API")
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
-# Get frontend URL from environment variable
+# Get frontend URL from environment variable (optional)
 frontend_url = os.getenv("FRONTEND_URL")
 
-# Default allowed origins
+# Explicit allowed origins
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://hrms-lite-frontend-vercel.vercel.app",
+    "https://hrms-lite-frontend.vercel.app",   # production URL
 ]
 
-# Add environment frontend URL if present
+# Add env-based frontend URL if exists
 if frontend_url:
     origins.append(frontend_url)
 
@@ -28,6 +28,7 @@ if frontend_url:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_origin_regex=r"https://hrms-lite-frontend.*\.vercel\.app",  # allow all Vercel previews
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
